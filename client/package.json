@@ -1,0 +1,56 @@
+{
+  "name": "laws-fe",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "./",
+  "main": "index.js",
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^13.5.0",
+    "goober": "^2.1.9",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-redux": "^8.0.1",
+    "react-scripts": "5.0.1",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.1",
+    "web-vitals": "^2.1.4"
+  },
+  "author": "<author of app>",
+  "build": {
+    "appId": "com.lostark-logger"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "dev": "cross-env NODE_ENV=development electron index.js",
+    "prod": "cross-env electron index.js",
+    "installer": "electron-builder --config build_config.json --win --x64"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "electron-builder": "^23.0.3",
+    "electron": "^18.2.0",
+    "cross-env": "^7.0.3"
+  }
+}

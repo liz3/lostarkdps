@@ -1,0 +1,15 @@
+{
+	"appId": "com.liz3.lostarkthingy",
+	"productName": "LostArkDpsMeter",
+	"extraMetadata": {
+		"name": "LostArkDpsMeter",
+		"main": "index.js"
+	},
+	"files": ["assets/**/*",  "build/**/*", "index.js", "preload.js"],
+	"win": {
+		"requestedExecutionLevel": "requireAdministrator"
+	},
+  "extraResources": [
+    "native/**/*"
+  ]
+}
