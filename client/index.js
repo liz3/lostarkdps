@@ -14,20 +14,15 @@ const fs = require("fs");
 const os = require("os");
 const homedir = os.homedir();
 const fPath = path.join(homedir, ".laws", ".lockfile");
-const socketCreate = () => {
-	return new Promise((resolve) => {
-		require("dns").lookup(os.hostname(), function (err, add, fam) {
-			const server = net.createServer((c) => {});
-			server.listen(12345, add);
-			server.close()
-			resolve()
-		});
-	});
-};
 const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));
 const execNative = () => {
 	console.log(__dirname);
-	const execPath = path.join(__dirname, "..", "native", "native_listener.exe");
+	const execPath = path.join(
+		__dirname,
+		"..",
+		"native",
+		"native_listener.exe"
+	);
 	const proc = execFile(execPath, [], {
 		cwd: path.join(__dirname, "..", "native"),
 		shell: false,
@@ -56,16 +51,20 @@ const getPort = () => {
 };
 let visible = true;
 app.whenReady().then(async () => {
-	await socketCreate()
+	const { screen } = require("electron");
 	ipcMain.handle("get_la_port", getPort);
 	let proc = null;
 	if (process.env.NODE_ENV !== "development") {
 		proc = execNative();
 		await sleep(750);
 	}
+	const primaryDisplay = screen.getPrimaryDisplay();
+	const { width, height } = primaryDisplay.workAreaSize;
 	const win = new BrowserWindow({
 		width: 800,
 		height: 400,
+		y: 0,
+		x: width - 800,
 		frame: false,
 		autoHideMenuBar: true,
 		webPreferences: {

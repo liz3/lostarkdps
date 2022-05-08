@@ -47,6 +47,8 @@ namespace LostArkWebsocket
             string folder = Path.Combine(homePath, ".laws");
             if(!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
+            if (File.Exists(Path.Combine(folder, ".lockfile")))
+                return;
             var ws = new LostArkWebsocket();
             int port = ws.Start();
             File.WriteAllText(Path.Combine(folder, ".lockfile"), port.ToString());

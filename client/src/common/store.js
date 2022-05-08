@@ -11,5 +11,5 @@ const store = createStore(
   applyMiddleware(...middleware)
 );
 
-window.__store = store
+window.__store = store;
 export default store;

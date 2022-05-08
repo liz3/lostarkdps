@@ -25,12 +25,12 @@ namespace LostArkWebsocket
         }
         public Dictionary<UInt64, UInt64> ProjectileOwner = new Dictionary<UInt64, UInt64>();
         public Dictionary<UInt64, String> IdToName = new Dictionary<UInt64, String>();
-        public Dictionary<UInt64, bool> PlayerMap = new Dictionary<UInt64, bool>();
+        public Dictionary<UInt64, bool> NPcMap = new Dictionary<UInt64, bool>();
         public Dictionary<String, String> NameToClass = new Dictionary<String, String>();
         Byte[] fragmentedPacket = new Byte[0];
         void ProcessPacket(List<Byte> data)
         {
-            if (!Directory.Exists("logs2")) Directory.CreateDirectory("logs2");
+       //     if (!Directory.Exists("logs2")) Directory.CreateDirectory("logs2");
             var packets = data.ToArray();
             var packetWithTimestamp = BitConverter.GetBytes(DateTime.UtcNow.ToBinary()).ToArray().Concat(data);
         
@@ -48,9 +48,9 @@ namespace LostArkWebsocket
                 }
 
                 var opcode = (OpCodes)BitConverter.ToUInt16(packets, 2);
-       /*         if (opcode != OpCodes.PKTNewTargetNotify && opcode != OpCodes.PKTMoveNotify && opcode != OpCodes.PKTMoveStopNotify && opcode != OpCodes.PKTMoveNotifyList)
-                    Console.WriteLine(opcode.ToString());*/
-                var packetSize = BitConverter.ToUInt16(packets.ToArray(), 0);
+               /* if (opcode != OpCodes.PKTNewTargetNotify && opcode != OpCodes.PKTMoveNotify && opcode != OpCodes.PKTMoveStopNotify && opcode != OpCodes.PKTMoveNotifyList)
+                    Console.WriteLine(opcode.ToString());
+             */   var packetSize = BitConverter.ToUInt16(packets.ToArray(), 0);
                 if (packets[5] != 1 || 6 > packets.Length || packetSize < 7)
                 {
                     // not sure when this happens
@@ -71,8 +71,18 @@ namespace LostArkWebsocket
                     ProjectileOwner[BitConverter.ToUInt64(payload, 4)] = BitConverter.ToUInt64(payload, 4 + 8);
                 else if (opcode == OpCodes.PKTNewNpc)
                 {
+                    var id = BitConverter.ToUInt64(payload, 7);
                     var npcName = Npc.GetNpcName(BitConverter.ToUInt32(payload, 15));
-                    IdToName[BitConverter.ToUInt64(payload, 7)] = npcName;
+                    IdToName[id] = npcName;
+                    NPcMap[id] = true;
+
+                } else if (opcode == OpCodes.PKTMusicUpdateNotify)
+                {
+                    var id = BitConverter.ToUInt32(payload, 6);
+                    message.Data = new JObject();
+                    message.Data["id"] = id;
+                    onMessage(message);
+                    
                 }
                 else if (opcode == OpCodes.PKTNewPC)
                 {
@@ -80,7 +90,6 @@ namespace LostArkWebsocket
                     var pcClass = Npc.GetPcClass(pc.ClassId);
                     if (!NameToClass.ContainsKey(pc.Name)) NameToClass[pc.Name] = pcClass + (NameToClass.ContainsValue(pcClass) ? (" - " + Guid.NewGuid().ToString().Substring(0, 4)) : "");
                     IdToName[pc.PlayerId] = pc.Name + " (" + pcClass + ")";
-                    PlayerMap[pc.PlayerId] = true;
                     var json = new JObject();
                     json["formatted"] = IdToName[pc.PlayerId];
                     json["class_id"] = pc.ClassId.ToString();
@@ -109,7 +118,6 @@ namespace LostArkWebsocket
                 {
                     var pc = new PKTInitEnv(payload);
                     IdToName[pc.PlayerId] = "You";
-                    PlayerMap[pc.PlayerId] = true;
                     newZoneMsg();
                     message.Type = "ThisPlayer";
                     var json = new JObject();
@@ -118,6 +126,14 @@ namespace LostArkWebsocket
                     onMessage(message);
 
 
+                } else if (opcode == OpCodes.PKTRaidStatusUpdateNotify)
+                {
+                    if(payload.Length == 38)
+                    {
+                        message.Data = new JObject();
+                        onMessage(message);
+                        
+                    }
                 }
                 /*if ((OpCodes)BitConverter.ToUInt16(converted.ToArray(), 2) == OpCodes.PKTRemoveObject)
                 {
@@ -132,7 +148,7 @@ namespace LostArkWebsocket
                         {
                             var skillName = Skill.GetSkillName(damage.SkillId, damage.SkillIdWithState);
                             var ownerId = ProjectileOwner.ContainsKey(damage.PlayerId) ? ProjectileOwner[damage.PlayerId] : damage.PlayerId;
-                            if (!PlayerMap.ContainsKey(ownerId))
+                            if (NPcMap.ContainsKey(ownerId))
                                 continue;
                             var nameKnown = IdToName.ContainsKey(ownerId);
                             var sourceName = nameKnown ? IdToName[ownerId] : ownerId.ToString("X");

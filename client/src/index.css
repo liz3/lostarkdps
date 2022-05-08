@@ -8,7 +8,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   width:  100vw;
   height: 100vh;
-  background: rgba(0,0,0,.2);
+  background: rgba(0,0,0,.3);
   user-select: none;
   overflow: hidden;
 }
@@ -24,7 +24,7 @@ div {
     box-sizing: border-box;
 }
 p, span, h1,h2 {
-  color:  white;
+  color: white;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

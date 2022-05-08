@@ -35,7 +35,6 @@ namespace LostArkWebsocket
             if (Items.ContainsKey((int)id))
             {
                 var skill = Items[(int)id];
-                Console.WriteLine(skill[2]);
                 return Npc.GetPcClass(uint.Parse(skill[2]));
             }
             return "UnknownClass";
