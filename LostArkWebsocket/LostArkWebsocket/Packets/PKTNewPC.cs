@@ -1,51 +1,37 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Text;
-
-namespace LostArkWebsocket
+namespace LostArkLogger
 {
     public class PKTNewPC
     {
-        public Byte PCTypeMaybe1;
-        public Byte PCTypeMaybe2;
-        public Byte PCTypeMaybe3;
-        public UInt64 UnkId;
-        public UInt64 PlayerId;
-        public String Name;
-        public Byte Two;
-        public UInt16 ClassId;
-
-        public static String ReadString(BitReader reader, Boolean unicode)
+        public PKTNewPC(BitReader reader)
         {
-            var stringBytes = new List<Byte>();
-            var stringByte = 0u;
-            var length = reader.ReadUInt16();
-            for (var i = 0; i < length; i++)
-            {
-                if (unicode)
-                {
-                    stringByte = reader.ReadUInt16();
-                    stringBytes.AddRange(BitConverter.GetBytes((UInt16)stringByte));
-                }
-                else
-                {
-                    stringByte = reader.ReadByte();
-                    stringBytes.Add((Byte)stringByte);
-                }
-            }
-            var finalStringParsed = unicode ? Encoding.Unicode.GetString(stringBytes.ToArray()) : Encoding.UTF8.GetString(stringBytes.ToArray());
-            return finalStringParsed;
+            field0 = reader.ReadByte();
+            pCStruct = reader.Read<PCStruct>();
+            field2 = reader.ReadByte();
+            hasfield3 = reader.ReadByte();
+            if (hasfield3 == 1)
+                field3 = reader.ReadUInt32();
+            hasfield4 = reader.ReadByte();
+            if (hasfield4 == 1)
+                field4 = reader.ReadBytes(12);
+            hasfield5 = reader.ReadByte();
+            if (hasfield5 == 1)
+                field5 = reader.ReadBytes(20);
+            hasfield6 = reader.ReadByte();
+            if (hasfield6 == 1)
+                pKTNewPC_2 = reader.Read<PKTNewPC_2>();
         }
-        public PKTNewPC(Byte[] Bytes)
-        {
-            var bitReader = new BitReader(Bytes);
-            //bitReader.ReadByte();
-            PCTypeMaybe1 = bitReader.ReadByte();
-            UnkId = bitReader.ReadUInt64();
-            PlayerId = bitReader.ReadUInt64();
-            Name = ReadString(bitReader, true);
-            Two = bitReader.ReadByte();
-            ClassId = bitReader.ReadUInt16();
-        }
+        public Byte field0;
+        public PCStruct pCStruct;
+        public Byte field2;
+        public Byte hasfield3;
+        public UInt32 field3;
+        public Byte hasfield4;
+        public Byte[] field4;
+        public Byte hasfield5;
+        public Byte[] field5;
+        public Byte hasfield6;
+        public PKTNewPC_2 pKTNewPC_2;
     }
 }

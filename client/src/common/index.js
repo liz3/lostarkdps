@@ -5,6 +5,7 @@ import {
 	addDamageEntry,
 	addSkillEntry,
 	updateThisPlayer,
+	addCounter,
 } from "./actions";
 
 const processData = ({ type, data }, store) => {
@@ -31,8 +32,10 @@ const processData = ({ type, data }, store) => {
 		dispatch(setRaidState(0));
 		dispatch(resetData());
 		dispatch(updateThisPlayer(data));
-	} else if (type === "PKTRaidStatusUpdateNotify") {
+	} else if (type === "PKTRaidStatusUpdateNotify" || type === "ZoneReset") {
 		dispatch(setRaidState(0));
+	} else if(type === "PKTCounterAttackNotify") {
+		dispatch(addCounter(data));
 	}
 };
 

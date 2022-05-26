@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LostArkWebsocket
+namespace LostArkLogger
 {
     public class GameMsg_English
     {
-        public static Dictionary<String, String> Items = (Dictionary<String, String>)ObjectSerialize.Deserialize(Properties.Resources.GameMsg_English);
+        public static Dictionary<String, String> Items = (Dictionary<String, String>)ObjectSerialize.Deserialize(LostArkWebsocket.Properties.Resources.GameMsg_English);
     }
 }

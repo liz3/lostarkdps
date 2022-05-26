@@ -37,7 +37,7 @@ const raidTimer = (
 		case types.RESET_DATA: {
 			if (!state.running)
 				return { running: false, start: 0, duration: 0 };
-			return state;
+			return state;		
 		}
 		case types.UPDATE_USER_DATA:
 			return state.running && state.start === 0

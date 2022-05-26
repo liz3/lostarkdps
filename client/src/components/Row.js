@@ -78,6 +78,31 @@ const DamageRow = ({
 	);
 };
 
+const SimpleRow = ({
+	name,
+	data,
+	percentage,
+	height = "50px",
+	color,
+}) => {
+	return (
+		<RowBase style={{ height }}>
+			<RowBackground
+				style={{
+					background: color,
+					transform: `scaleX(${percentage})`,
+				}}
+			/>
+			<span style={{fontSize: "12px"}}>
+				{name}
+			</span>
+					<span style={{fontSize: "12px"}}>
+				{data.damage.toLocaleString()}
+			</span>
+		</RowBase>
+	);
+};
+
 const Row = ({ data }) => {
 	const userEntry = useSelector((state) => state.damageState[data.id]);
 
@@ -103,6 +128,7 @@ const Row = ({ data }) => {
 				onClick={() => setAdvanced(!advanced)}
 				color={"#265487"}
 			/>
+	
 			{advanced && detailedBreakDown ? (
 				<AdvancedRows>
 					{detailedBreakDown.map((entry) => (
@@ -117,6 +143,14 @@ const Row = ({ data }) => {
 					))}
 				</AdvancedRows>
 			) : null}
+					{userEntry.counters > 0 ? 	
+					<SimpleRow
+				name={"Counters"}
+				height={"15px"}
+				percentage={0.05 * userEntry.counters}
+				data={{damage: userEntry.counters}}
+				color={"#4d3479"}
+			/> : null}
 		</WrapperStyle>
 	);
 };

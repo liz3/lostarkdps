@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LostArkWebsocket
+namespace LostArkLogger
 {
     public class Npc
     {
-        public static Dictionary<String, Tuple<String, String>> Items = (Dictionary<String, Tuple<String, String>>)ObjectSerialize.Deserialize(Properties.Resources.Npc);
+        public static Dictionary<String, Tuple<String, String>> Items = (Dictionary<String, Tuple<String, String>>)ObjectSerialize.Deserialize(LostArkWebsocket.Properties.Resources.Npc);
         public static String GetNpcName(UInt32 id)
         {
             var npcName = "";
@@ -32,6 +32,7 @@ namespace LostArkWebsocket
             if (id == 401) return "Assassin";
             if (id == 501) return "Gunner";
             if (id == 102) return "Berserker";
+            if (id == 103) return "Destroyer";
             if (id == 104) return "Gunlancer";
             if (id == 105) return "Paladin";
             if (id == 204) return "Bard";

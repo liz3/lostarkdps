@@ -89,14 +89,33 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Crc32C.NET, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Crc32C.NET.1.0.5.0\lib\net20\Crc32C.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4, Version=1.2.16.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Compression.LZ4.1.2.16\lib\net46\K4os.Compression.LZ4.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PacketDotNet, Version=1.3.0.0, Culture=neutral, PublicKeyToken=451414c7667b2a58, processorArchitecture=MSIL">
       <HintPath>..\packages\PacketDotNet.1.4.0\lib\net47\PacketDotNet.dll</HintPath>
     </Reference>
+    <Reference Include="Snappy.NET, Version=1.1.1.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Snappy.NET.1.1.1.8\lib\net45\Snappy.NET.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -111,20 +130,44 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\DamageModifierFlags.cs" />
+    <Compile Include="Data\Entity.cs" />
     <Compile Include="Data\GameMsg_English.cs" />
     <Compile Include="Data\LogInfo.cs" />
-    <Compile Include="Data\Message.cs" />
+    <Compile Include="Data\JsonMessage.cs" />
     <Compile Include="Data\Npc.cs" />
     <Compile Include="Data\ObjectSerialize.cs" />
     <Compile Include="Packets\BitReader.cs" />
-    <Compile Include="Packets\OpCodes.cs" />
-    <Compile Include="Packets\PKTDeathNotif.cs" />
+    <Compile Include="Packets\ItemInfo.cs" />
+    <Compile Include="Packets\NpcStruct.cs" />
+    <Compile Include="Packets\OpCodes_kr.cs" />
+    <Compile Include="Packets\OpCodes_ru.cs" />
+    <Compile Include="Packets\OpCodes_steam.cs" />
+    <Compile Include="Packets\PCStruct.cs" />
+    <Compile Include="Packets\PKTCounterAttackNotify.cs" />
+    <Compile Include="Packets\PKTDeathNotify.cs" />
     <Compile Include="Packets\PKTInitEnv.cs" />
-    <Compile Include="Packets\PKTInitPc.cs" />
+    <Compile Include="Packets\PKTInitEnv_1.cs" />
+    <Compile Include="Packets\PKTInitPC.cs" />
+    <Compile Include="Packets\PKTNewNpc.cs" />
+    <Compile Include="Packets\PKTNewNpcSummon.cs" />
+    <Compile Include="Packets\PKTNewNpc_1_1.cs" />
+    <Compile Include="Packets\PKTNewNpc_1_1_1.cs" />
+    <Compile Include="Packets\PKTNewNpc_1_5_1.cs" />
     <Compile Include="Packets\PKTNewPC.cs" />
+    <Compile Include="Packets\PKTNewPC_2.cs" />
+    <Compile Include="Packets\PKTNewProjectile.cs" />
+    <Compile Include="Packets\PKTRemoveObject.cs" />
     <Compile Include="Packets\PKTSkillDamageAbnormalMoveNotify.cs" />
     <Compile Include="Packets\PKTSkillDamageNotify.cs" />
-    <Compile Include="Packets\PKTSkillStartNotif.cs" />
+    <Compile Include="Packets\PKTStatChangeOriginNotify.cs" />
+    <Compile Include="Packets\PKTStatusEffectAddNotify.cs" />
+    <Compile Include="Packets\ProjectileInfo.cs" />
+    <Compile Include="Packets\SkillDamageEvent.cs" />
+    <Compile Include="Packets\SkillDamageMoveEvent.cs" />
+    <Compile Include="Packets\SkillRunes.cs" />
+    <Compile Include="Packets\StatPair.cs" />
+    <Compile Include="Packets\StatusEffectData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\Skill.cs" />
@@ -134,10 +177,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Resource1.Designer.cs">
+    <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resource1.resx</DependentUpon>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Utils\Oodle.cs" />
     <Compile Include="Utils\Sniffer.cs" />
@@ -157,14 +200,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\oodle_state.bin" />
+    <None Include="Resources\oodle_state_steam.bin" />
     <None Include="Resources\Skill.bin" />
     <None Include="Resources\SkillEffect.bin" />
     <None Include="Resources\xor.bin" />
+    <None Include="Resources\xor_steam.bin" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resource1.resx">
+    <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

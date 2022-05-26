@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LostArkLogger;
+using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -32,7 +33,7 @@ namespace LostArkWebsocket
                 }
           //      if (System.Windows.MessageBox.Show("please copy oo2net_9_win64 from LostArk\\Binaries\\Win64 directory to current directory", "Missing DLL") != DialogResult.OK) return;
             }
-            var payload = ObjectSerialize.Decompress(Properties.Resources.oodle_state);
+            var payload = ObjectSerialize.Decompress(Properties.Resources.oodle_state_steam);
             var dict = payload.Skip(0x20).Take(0x800000).ToArray();
             var compressorSize = BitConverter.ToInt32(payload, 0x18);
             var compressorState = payload.Skip(0x20).Skip(0x800000).Take(compressorSize).ToArray();

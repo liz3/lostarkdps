@@ -3,7 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace LostArkWebsocket
+namespace LostArkLogger
 {
     // copy/paste https://stackoverflow.com/questions/36276851/serialize-and-deserialize-dictionary-to-binary
     public static class ObjectSerialize

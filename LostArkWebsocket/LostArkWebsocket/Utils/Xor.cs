@@ -1,8 +1,10 @@
-﻿namespace LostArkWebsocket
+﻿using LostArkLogger;
+
+namespace LostArkWebsocket
 {
     static class Xor
     {
-        static byte[] XorTable = ObjectSerialize.Decompress(Properties.Resources.xor);
+        static byte[] XorTable = ObjectSerialize.Decompress(Properties.Resources.xor_steam);
         public static void Cipher(byte[] data, int seed, byte[] xorKey = null)
         {
             if (xorKey == null) xorKey = XorTable;

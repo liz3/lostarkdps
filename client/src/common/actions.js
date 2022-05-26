@@ -34,6 +34,7 @@ export const addSkillEntry = (payload) => {
 			damage: 0,
 			back_attacks: 0,
 			front_attacks: 0,
+			counters: 0,
 			spells: {},
 			name: payload.name_known ? payload.source_name : payload.source_id,
 			name_known: payload.name_known,
@@ -60,6 +61,32 @@ export const addSkillEntry = (payload) => {
 		});
 	};
 };
+export const addCounter = (payload) => {
+	return (dispatch, getState) => {
+		const { damageState } = getState();
+		const user = ensure(damageState, payload.source_id, {
+			id: payload.source_id,
+			registered: 0,
+			attacks: 0,
+			crits: 0,
+			damage: 0,
+			back_attacks: 0,
+			front_attacks: 0,
+			counters: 0,
+			spells: {},
+			name: payload.name_known ? payload.source_name : payload.source_id,
+			name_known: payload.name_known,
+		});
+		if (!user.name_known && payload.name_known)
+			user.name = payload.source_name;
+		user.counters++;
+		dispatch({
+			type: types.UPDATE_USER_DATA_SKILL,
+			target: user.id,
+			data: user,
+		});
+	};
+};
 export const addDamageEntry = (payload) => {
 	return (dispatch, getState) => {
 		const { damageState } = getState();
@@ -71,6 +98,7 @@ export const addDamageEntry = (payload) => {
 			damage: 0,
 			back_attacks: 0,
 			front_attacks: 0,
+			counters: 0,
 			spells: {},
 			name: payload.name_known ? payload.source_name : payload.source_id,
 			name_known: payload.name_known,
